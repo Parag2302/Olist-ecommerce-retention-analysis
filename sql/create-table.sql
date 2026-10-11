@@ -1,3 +1,4 @@
+use olist;
 create table if not exists customers( 
     customer_id varchar(32) not null,
     customer_unique_id varchar(32) not null,
