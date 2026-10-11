@@ -11,4 +11,7 @@ deliveries and bad reviews may be part of the reason.
 
 ## Decisions
 
+- Use customer_unique_id, not customer_id, to identify customers. customer_id is generated per order, so it would make every customer look like a one-time buyer.
+
 ## Data issues
+
