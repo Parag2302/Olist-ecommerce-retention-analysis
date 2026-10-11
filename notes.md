@@ -12,6 +12,9 @@ deliveries and bad reviews may be part of the reason.
 ## Decisions
 
 - Use customer_unique_id, not customer_id, to identify customers. customer_id is generated per order, so it would make every customer look like a one-time buyer.
+- Use customer_unique_id, not customer_id, to identify customers. customer_id is generated per order, so it would make every customer look like a one-time buyer.
+- Renamed product_name_lenght and product_description_lenght to ..._length (typo in the source file). Columns are loaded by position, so the CSV header doesn't need to match.
+
 
 ## Data issues
 
