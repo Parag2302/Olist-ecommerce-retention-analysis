@@ -20,5 +20,10 @@ deliveries and bad reviews may be part of the reason.
 - No foreign key from products to category_translation, because some categories may have no translation. I will check this after loading.
 
 
+
 ## Data issues
 
+- geolocation table: 19,234 "data truncated" notes on geolocation_lat during load. Some coordinates have more than 15 decimal places and were rounded. No rows lost. Immaterial; geolocation isn't used for the revenue or retention analysis.
+- products table: 610 of 32,951 rows have no product_category_name. Stored as empty text (''), not NULL (0 NULL rows). Will group them as 'unknown' in the category analysis.
+- products table: 2 rows have no product_weight_g (NULL). Not needed for revenue or retention.
+- products table: 4 rows have product_weight_g = 0, which is not a real weight. Exclude them from any weight-based analysis.
