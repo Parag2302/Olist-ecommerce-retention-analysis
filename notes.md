@@ -27,3 +27,4 @@ deliveries and bad reviews may be part of the reason.
 - products table: 610 of 32,951 rows have no product_category_name. Stored as empty text (''), not NULL (0 NULL rows). Will group them as 'unknown' in the category analysis.
 - products table: 2 rows have no product_weight_g (NULL). Not needed for revenue or retention.
 - products table: 4 rows have product_weight_g = 0, which is not a real weight. Exclude them from any weight-based analysis.
+- geolocation table: initial load gave 19,234 "data truncated" notes because some coordinates had more than 15 decimals (column was decimal(18,15)). Widened lat/lng to decimal(24,20) and reloaded; 0 warnings, 1,000,163 rows.

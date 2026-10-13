@@ -6,6 +6,7 @@ create table if not exists customers(
     customer_city varchar(100),
     customer_state char(2),
     primary key (customer_id)
+
 );
 
 create table if not exists orders( 
