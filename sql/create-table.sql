@@ -86,8 +86,8 @@ create table if not exists order_reviews (
 
 create table if not exists geolocation (
     geolocation_zip_code_prefix varchar(5),
-    geolocation_lat decimal(18,15),
-    geolocation_lng decimal(18,15),
+    geolocation_lat decimal(24,20),
+    geolocation_lng decimal(24,20),
     geolocation_city varchar(100),
     geolocation_state char(2)
 );
