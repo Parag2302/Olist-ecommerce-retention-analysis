@@ -19,6 +19,15 @@ deliveries and bad reviews may be part of the reason.
 - order_reviews and geolocation have no primary key for now. I will test whether review_id repeats after loading, and geolocation has many rows per zip prefix.
 - No foreign key from products to category_translation, because some categories may have no translation. I will check this after loading.
 
+- Converted 610 empty product categories to NULL.
+- Did not delete the repeated review_ids; they are different orders sharing
+  one review.
+- Tested that (review_id, order_id) is unique (99,224 distinct pairs for
+  99,224 rows) before adding it, then used it as a composite primary key on
+  order_reviews.
+- Confirmed order_reviews already has an index on order_id (created by the
+  foreign key), so no extra index is needed for joins to orders.
+
 
 
 ## Data issues
@@ -28,3 +37,19 @@ deliveries and bad reviews may be part of the reason.
 - products table: 2 rows have no product_weight_g (NULL). Not needed for revenue or retention.
 - products table: 4 rows have product_weight_g = 0, which is not a real weight. Exclude them from any weight-based analysis.
 - geolocation table: initial load gave 19,234 "data truncated" notes because some coordinates had more than 15 decimals (column was decimal(18,15)). Widened lat/lng to decimal(24,20) and reloaded; 0 warnings, 1,000,163 rows.
+
+
+- 2 products have no weight (found during load).
+- geolocation: coordinates were rounded during load (see rounding notes from Phase 2).
+- order_reviews: review_id is not unique. 99,224 rows but only 98,410 distinct
+  review_ids (814 extra rows). Sampled ID 1fb4ddc9... appears on 3 different
+  orders with the same score and date, so it is one review linked to several
+  orders, not a duplicate row.
+- products: 610 rows had product_category_name stored as '' (empty text)
+  instead of NULL, because NULLIF was only applied to numeric columns.
+
+
+  ## TO check later
+
+  - Row counts took 14 to 58 sec on small tables, likely cold disk reads.
+  Measure with EXPLAIN in the indexing phase.
