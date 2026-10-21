@@ -27,8 +27,11 @@ deliveries and bad reviews may be part of the reason.
   order_reviews.
 - Confirmed order_reviews already has an index on order_id (created by the
   foreign key), so no extra index is needed for joins to orders.
+- Kept all of these orders. Delivery time will be measured from purchase to customer delivery, 
+  not through the courier date, because the courier date is the unreliable timestamp.
 
-
+- Kept these 23 orders. The courier date is unreliable for them, so delivery time is measured
+  from purchase to customer delivery.
 
 ## Data issues
 
@@ -47,7 +50,15 @@ deliveries and bad reviews may be part of the reason.
   orders, not a duplicate row.
 - products: 610 rows had product_category_name stored as '' (empty text)
   instead of NULL, because NULLIF was only applied to numeric columns.
+- about 97% orders completed and 3% never finished 
+- orders: 23 delivered orders have date gaps (14 missing approval date, all from Jan-Feb 2017;
+  8 missing delivery date, all from Jun-Jul 2018; 2 missing carrier date; 1 order is missing two dates). The gaps cluster by date, so they look like source recording gaps.
 
+- orders: of 1,359 orders with courier date before approval date, 242 differ by under 1 hour,
+  659 by 1 to 24 hours, 444 by 1 to 7 days, and 14 by over 7 days (max about 171 days). 23 orders have delivery date before courier date
+
+- orders: 23 delivered orders have a delivery date earlier than the courier date. Gaps range 
+  from 0 to 386 hours (about 16 days); 7 are 5 to 8 days. In every case the purchase date is the earliest date, so the courier date is the likely bad timestamp.
 
   ## TO check later
 
