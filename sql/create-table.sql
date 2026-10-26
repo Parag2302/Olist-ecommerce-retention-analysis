@@ -81,6 +81,8 @@ create table if not exists order_reviews (
     review_comment_message text,
     review_creation_date datetime,
     review_answer_timestamp datetime,
+    primary key (review_id, order_id),
+    foreign key (order_id) references orders (order_id),
     index(order_id)
 );
 
